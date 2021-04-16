@@ -15,10 +15,7 @@ public class Main {
         addRandom2or4(field);
         Scanner sc = new Scanner(System.in);
         while (true) {
-            /*if (checkIfLost(field)) {
-                System.out.println("you lost");
-                break;
-            }*/
+
             String input = sc.nextLine();
             if (input.equals("r")) {
                 right(field);
@@ -55,7 +52,7 @@ public class Main {
     public static void addRandom2or4(int[][] field) {
         int row;
         int column;
-        if(!checkIfFieldIsFull(field)) {
+        if (!checkIfFieldIsFull(field)) {
             do {
                 row = rd.nextInt(4);
                 column = rd.nextInt(4);
@@ -89,48 +86,6 @@ public class Main {
                     field[j][i - 2] = 0;
                 }
             }
-            /*for (int i = 1; i < 4; i++) {
-                if (field[j][i] == field[j][i - 1]) {
-                    field[j][i] *= 2;
-                }
-                if (field[j][i] == field[j][i - 1]) {
-                    field[j][i] *= 2;
-                    field[j][i - 1] = 0;
-                }
-                if (i == 3 && field[j][i] == field[j][i - 2] && field[j][i - 1] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 2] = 0;
-                }
-                if (i == 3 && field[j][i] == field[j][i - 3] && field[j][i - 1] == 0 && field[j][i - 2] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 3] = 0;
-                }
-                if (i == 2 && field[j][i] == field[j][i - 2] && field[j][i - 1] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 2] = 0;
-                }
-            }
-            for (int i = 1; i < 4; i++) {
-                if (field[j][i] == field[j][i - 1]) {
-                    field[j][i] *= 2;
-                }
-                if (field[j][i] == field[j][i - 1]) {
-                    field[j][i] *= 2;
-                    field[j][i - 1] = 0;
-                }
-                if (i == 3 && field[j][i] == field[j][i - 2] && field[j][i - 1] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 2] = 0;
-                }
-                if (i == 3 && field[j][i] == field[j][i - 3] && field[j][i - 1] == 0 && field[j][i - 2] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 3] = 0;
-                }
-                if (i == 2 && field[j][i] == field[j][i - 2] && field[j][i - 1] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 2] = 0;
-                }
-            }*/
         }
 
 
@@ -202,8 +157,8 @@ public class Main {
 
     public static boolean checkIfFieldIsFull(int[][] field) {
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++){
-                if(field[i][j]==0){
+            for (int j = 0; j < 4; j++) {
+                if (field[i][j] == 0) {
                     return false;
                 }
             }
@@ -259,54 +214,27 @@ public class Main {
     }
 
     public static void up(int[][] field) {
-/*        int[][] newField = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                newField[i][j] = field[3 - j][i];
-            }
-        }*/
+
         rotate90(field);
         move(field);
         rotate270(field);
-/*        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                field[i][j] = newField[j][3 - i];
-            }
-        }*/
+
     }
 
     public static void down(int[][] field) {
-/*        int[][] newField = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                newField[i][j] = field[j][3 - i];
-            }
-        }*/
+
         rotate270(field);
         move(field);
         rotate90(field);
-/*        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                field[i][j] = newField[3 - j][i];
-            }
-        }*/
+
     }
 
     public static void left(int[][] field) {
-/*        int[][] newField = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                newField[i][j] = field[i][3 - j];
-            }
-        }*/
+
         rotate180(field);
         move(field);
         rotate180(field);
-       /* for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                field[i][j] = newField[i][3 - j];
-            }
-        }*/
+
     }
 
 
