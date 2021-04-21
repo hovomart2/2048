@@ -11,35 +11,7 @@ public class Game2048 {
 
     public static void main(String[] args) {
         GUI gui = new GUI();
-        /*addRandom2or4(field);
-        addRandom2or4(field);
-        Scanner sc = new Scanner(System.in);
-        while (!checkIfLost(field) || !checkIfWin(field)) {
-            System.out.println("Write r for right, l for left, u for up, d for down, new game for a new game");
-            String input = sc.nextLine();
-            if (input.equals("new game")) {
-                newGame();
-            }
-            if (input.equals("r")) {
-                right(field);
-                addRandom2or4(field);
-            }
-            if (input.equals("u")) {
-                up(field);
-
-                addRandom2or4(field);
-            }
-            if (input.equals("d")) {
-                down(field);
-                addRandom2or4(field);
-            }
-            if (input.equals("l")) {
-                left(field);
-                addRandom2or4(field);
-            }
-
-        }
-*/    }
+    }
 
 
     public static void printField(int[][] field) {
@@ -52,7 +24,9 @@ public class Game2048 {
         System.out.println();
     }
 
+
     public static void addRandom2or4(int[][] field) {
+
         int row;
         int column;
         if (!checkIfFieldIsFull(field)) {
@@ -64,6 +38,7 @@ public class Game2048 {
             field[row][column] = 2;
             printField(field);
         }
+
     }
 
     public static void movee(int[][] field) {
