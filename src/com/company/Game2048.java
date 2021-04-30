@@ -1,18 +1,17 @@
 package com.company;
 
 import java.util.Random;
-import java.util.Scanner;
 
 
 public class Game2048 {
     static int[][] field = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    static boolean changed;
 
     static Random rd = new Random();
 
     public static void main(String[] args) {
         GUI gui = new GUI();
     }
-
 
     public static void printField(int[][] field) {
         for (int i = 0; i < 4; i++) {
@@ -24,9 +23,7 @@ public class Game2048 {
         System.out.println();
     }
 
-
     public static void addRandom2or4(int[][] field) {
-
         int row;
         int column;
         if (!checkIfFieldIsFull(field)) {
@@ -35,130 +32,28 @@ public class Game2048 {
                 column = rd.nextInt(4);
             }
             while (field[row][column] != 0);
-            field[row][column] = 2;
+            int a;
+            a = rd.nextInt(10);
+            if (a == 0) {  // there is 10% chance for a=0,
+                // so there is 10% chance for adding 4 and 90% chance for adding 2 after a move
+                field[row][column] = 4;
+            } else
+                field[row][column] = 2;
             printField(field);
         }
 
     }
 
-    public static void movee(int[][] field) {
-
-
-        for (int j = 0; j < 4; j++) {
-            int count = 0;
-            for (int i = 1; i < 4; i++) {
-                if (field[j][0] == field[j][1] && field[j][2] == field[j][3] && field[j][2] != 0 && field[j][0] != 0) {
-                    field[j][2] = field[j][0] * 2;
-                    field[j][3] = field[j][3] * 2;
-                    field[j][0] = 0;
-                    field[j][1] = 0;
-                } else if (field[j][i] == field[j][i - 1]) {
-                    field[j][i] *= 2;
-                    field[j][i - 1] = 0;
-                } else if (i == 3 && field[j][i] == field[j][i - 2] && field[j][i - 1] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 2] = 0;
-                } else if (i == 3 && field[j][i] == field[j][i - 3] && field[j][i - 1] == 0 && field[j][i - 2] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 3] = 0;
-                } else if (i == 2 && field[j][i] == field[j][i - 2] && field[j][i - 1] == 0) {
-                    field[j][i] *= 2;
-                    field[j][i - 2] = 0;
-                }
-
-            }
-        }
-
-
-        for (int j = 0; j < 4; j++) {
-            for (int i = 3; i >= 1; i--) {
-                if (field[j][i] == 0) {
-                    field[j][i] = field[j][i - 1];
-                    field[j][i - 1] = 0;
-                }
-            }
-            for (int i = 3; i >= 1; i--) {
-                if (field[j][i] == 0) {
-                    field[j][i] = field[j][i - 1];
-                    field[j][i - 1] = 0;
-                }
-            }
-            for (int i = 3; i >= 1; i--) {
-                if (field[j][i] == 0) {
-                    field[j][i] = field[j][i - 1];
-                    field[j][i - 1] = 0;
-                }
-            }
-        }
-
-
-    }
-
     public static void move(int[][] field) {
-
-        /*for (int j = 0; j < 4; j++) {
-
-            if (field[j][3] == field[j][2] && field[j][3] != 0) {
-                field[j][3] *= 2;
-                if (field[j][0] == field[j][1]) {
-                    field[j][2] = field[j][0] * 2;
-                    field[j][0] = 0;
-                    field[j][1] = 0;
-                }
-                else {
-                    field[j][2] = field[j][1];
-                    field[j][1] = field[j][0];
-                    field[j][0] = 0;
-                }
-            } else if (field[j][3] == field[j][1] && field[j][2] == 0) {
-                field[j][3] *= 2;
-                field[j][2] = field[j][0];
-                field[j][1] = 0;
-                field[j][0] = 0;
-            } else if (field[j][3] == field[j][0] && field[j][1] == 0 && field[j][2] == 0) {
-                field[j][3] *= 2;
-                field[j][0] = 0;
-            } else if (field[j][2] == field[j][1]) {
-                if (field[j][3] != 0) {
-                    field[j][2] *= 2;
-                    field[j][1] = field[j][0];
-                    field[j][0] = 0;
-                } else {
-                    field[j][3] = field[j][2] * 2;
-                    field[j][2] = field[j][0];
-                    field[j][1] = 0;
-                    field[j][0] = 0;
-                }
-
+        changed = false;
+        int[][] initialField = new int[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                initialField[i][j] = field[i][j];
             }
-            if (field[j][0] == field[j][2] && field[j][1] == 0) {
-                if (field[j][3] == 0) {
-                    field[j][3] = 2 * field[j][0];
-                    field[j][0] = 0;
-                    field[j][2] = 0;
-                } else {
-                    field[j][2] *= 2;
-                    field[j][0] = 0;
-                }
-            } else if (field[j][0] == field[j][1] && field[j][2] == 0 && field[j][3] == 0) {
-                field[j][3] = 2 * field[j][0];
-                field[j][1] = 0;
-                field[j][0] = 0;
-            } else if (field[j][0] == field[j][1] && field[j][2] == 0 && field[j][3] != 0) {
-                field[j][2] = 2 * field[j][0];
-                field[j][0] = 0;
-                field[j][1] = 0;
-            } else if (field[j][0] == field[j][1] && field[j][2] != 0 && field[j][3] == 0) {
-                field[j][3] = field[j][2];
-                field[j][2] = field[j][0] * 2;
-                field[j][1] = 0;
-                field[j][0] = 0;
-            } else if (field[j][0] == field[j][1] && field[j][2] != 0 && field[j][3] != 0) {
-                field[j][1] *= 2;
-                field[j][0] = 0;
-            }
-        }*/
+        }
 
+        //bringing all numbers to the right in the same order without merging
         for (int j = 0; j < 4; j++) {
             for (int i = 3; i >= 1; i--) {
                 if (field[j][i] == 0) {
@@ -180,6 +75,7 @@ public class Game2048 {
             }
         }
 
+        //merging numbers to the right if needed
         for (int j = 0; j < 4; j++) {
             if (field[j][3] == field[j][2] && field[j][3] != 0 && field[j][0] == field[j][1]) {
                 field[j][3] *= 2;
@@ -198,6 +94,14 @@ public class Game2048 {
             } else if (field[j][0] == field[j][1]) {
                 field[j][1] *= 2;
                 field[j][0] = 0;
+            }
+        }
+
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(initialField[i][j] != field[i][j])
+                changed=true;
             }
         }
     }
@@ -233,7 +137,9 @@ public class Game2048 {
                 if (checkIfThereAreAnyRightMoves(field)) {
                     rotate90(field);
                     if (checkIfThereAreAnyRightMoves(field))
-                        System.out.println("Yoy lost!!");
+                        rotate90(field);
+                    printField(field);
+                    System.out.println("Yoy lost!!");
                     return true;
                 }
             }
@@ -332,7 +238,7 @@ public class Game2048 {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (field[i][j] == 2048) {
-                    System.out.println("Congratulations, yopu win!!");
+                    printField(field);
                     return true;
                 }
             }
@@ -340,31 +246,5 @@ public class Game2048 {
         return false;
     }
 
-    public static void newGame() {
-        int[][] field = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-        addRandom2or4(field);
-        addRandom2or4(field);
-        Scanner sc = new Scanner(System.in);
-        while (!checkIfLost(field) || !checkIfWin(field)) {
-
-            String input = sc.nextLine();
-            if (input.equals("r")) {
-                right(field);
-                addRandom2or4(field);
-            }
-            if (input.equals("up")) {
-                up(field);
-                addRandom2or4(field);
-            }
-            if (input.equals("down")) {
-                down(field);
-                addRandom2or4(field);
-            }
-            if (input.equals("left")) {
-                left(field);
-                addRandom2or4(field);
-            }
-        }
-    }
 }
 
