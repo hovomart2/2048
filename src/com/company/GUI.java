@@ -16,6 +16,7 @@ public class GUI extends Game2048 {
 
     public JFrame frame;
 
+    //constructor
     GUI() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -40,7 +41,6 @@ public class GUI extends Game2048 {
         southPanel.setBackground(backgroundColor);
         southPanel.setPreferredSize(new Dimension(gameBoardSize, marginSize));
 
-
         addRandom2or4(field);
         addRandom2or4(field);
 
@@ -54,42 +54,20 @@ public class GUI extends Game2048 {
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == KeyEvent.VK_UP) {
-                    up(field);
-
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-
+                    upMove(field);
                     if(changed){
                     addRandom2or4(field);
                     }
                 } else if (key == KeyEvent.VK_LEFT) {
-                    left(field);
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
+                    leftMove(field);
                     if(changed)
                     addRandom2or4(field);
                 } else if (key == KeyEvent.VK_DOWN) {
-                    down(field);
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
+                    downMove(field);
                     if(changed)
                     addRandom2or4(field);
                 } else if (key == KeyEvent.VK_RIGHT) {
-                    right(field);
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
+                    rightMove(field);
                     if(changed)
                     addRandom2or4(field);
                 }
@@ -154,6 +132,8 @@ public class GUI extends Game2048 {
                     switch (field[i][j]) {
                         case 0:
                             panelArray[i][j].setBackground(new Color(204, 192, 179));
+/*                            labelArray[i][j].setForeground(new Color(204, 192, 179));*/
+
                             break;
                         case 2:
                             panelArray[i][j].setBackground(new Color(238, 228, 218));
@@ -208,10 +188,9 @@ public class GUI extends Game2048 {
             frame.setVisible(true);
             frame.setFocusable(true);
 
+        }while (!shouldLost(field) && !shouldWin(field));
 
-        }while (!checkIfLost(field) && !checkIfWin(field));
-
-        if(checkIfLost(field)){
+        if(shouldLost(field)){
             northPanel.removeAll();
             JLabel lostLabel = new JLabel("You lost!! Press 's' to start again", SwingConstants.CENTER);
             lostLabel.setFont(new Font("Serif", Font.BOLD, 20));
@@ -220,7 +199,7 @@ public class GUI extends Game2048 {
             frame.setVisible(true);
         }
 
-        if(checkIfWin(field)){
+        if(shouldWin(field)){
             northPanel.removeAll();
             JLabel winLabel = new JLabel("You win!! Press 's' to start again", SwingConstants.CENTER);
             winLabel.setFont(new Font("Serif", Font.BOLD, 20));
